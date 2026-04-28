@@ -13,6 +13,19 @@ os.system('cls')
 #ajudará Juliana (e outros atletas) a planejar seus treinos, monitorar seu
 #desempenho e se preparar melhor para provas.
 
+
+# treinos
+# exercícios e controle de desempenho
+# planejamento de competições
+# acompanhamento de evolução
+# armazenamento de dados
+# sugestões personalizadas
+# acompanhamento corporal (extra?)
+
+
+
+
+
 #Requisitos Funcionais:
 #1. CRUD de Treinos:
 #O usuário poderá adicionar, visualizar, editar e excluir treinos, com informações
@@ -47,6 +60,11 @@ while True:
 #O usuário poderá cadastrar competições futuras, informando data, local e
 #categoria. Ao visualizar uma competição, o sistema deverá exibir quantos dias
 #faltam para o evento.
+
+while True:
+    pass
+
+
 
 
 #4. Acompanhamento de Evolução:
