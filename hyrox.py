@@ -4,14 +4,10 @@ os.system('cls')
 
 #Projeto: “HYROX Planner”
 #Descrição do Problema:
-#Júlia começou a treinar para competições de HYROX, que combina corrida
-#com exercícios funcionais de alta intensidade. No entanto, ela tem dificuldade
-#em organizar seus treinos, controlar sua evolução, planejar os dias de
-#descanso, acompanhar o desempenho em cada modalidade (corrida, sled
-#push, burpees, entre outros) e se preparar adequadamente para as
-#competições. Pensando nisso, vamos criar o sistema “HYROX Planner”, que
-#ajudará Juliana (e outros atletas) a planejar seus treinos, monitorar seu
-#desempenho e se preparar melhor para provas.
+#Júlia começou a treinar para competições de HYROX, que combina corrida com exercícios funcionais de alta intensidade. No entanto, ela tem dificuldade 
+# em organizar seus treinos, controlar sua evolução, planejar os dias de descanso, acompanhar o desempenho em cada modalidade (corrida, sled push, burpees, entre outros)
+#e se preparar adequadamente para as competições. Pensando nisso, vamos criar o sistema “HYROX Planner”, que ajudará Juliana (e outros atletas) a planejar seus treinos, 
+#monitorar seu desempenho e se preparar melhor para provas.
 
 
 # treinos
@@ -22,29 +18,99 @@ os.system('cls')
 # sugestões personalizadas
 # acompanhamento corporal (extra?)
 
-
-
-
-
 #Requisitos Funcionais:
 #1. CRUD de Treinos:
 #O usuário poderá adicionar, visualizar, editar e excluir treinos, com informações
 #como: nome do treino, tipo (corrida, força, simulado HYROX), data, duração e
 #intensidade.
-
+titulos = ['Treino', 'Tipo', 'Data', 'Duração', 'Intensidade']
+treinos = []
+tipos = []
+datas = []
+duracoes = []
+intensidades = []
 
 while True:
-    opcao = int(input("Menu de Opções: \n1. Adicionar treino \n2. Visualizar treinos \n3. Editar treinos \n4. Excluir treino \n5. Sair \nDigite o número da opção desejada: "))
+    opcao = int(input("Menu de Opções: \n1. Adicionar treino \n2. Visualizar treinos \n3. Editar treinos \n4. Excluir treino \n5. Sair \n\nDigite o número da opção desejada: "))
     if opcao == 5:
         break
     elif opcao == 1:
-        pass
+        treino = input("Adicione o nome do treino desejado: ").capitalize()
+        treinos.append(treino)
+        while True:
+            tipo = input("Adicione o tipo de treino: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
+            if tipo == "C":
+                tipos.append("Corrida")
+                break
+            elif tipo == "F":
+                tipos.append("Força")
+                break
+            elif tipo == "S":
+                tipos.append("Simulado HYROX")
+                break
+            else:
+                print("Opção inválida!")
+        while True:
+            duracao = int(input("Digite a duração do exercício, em minutos: "))
+            if duracao <= 0:
+                print("Duração inválida. Tente novamente")
+            elif duracao >= 600:
+                print("Essa duração parece muito grande. Tente novamente")
+            else:
+                horas = str(duracao // 60)
+                minutos = str(duracao%60)
+                valor = str(horas + 'h' + ' ' + minutos + 'min')                
+                duracoes.append(valor)
+                break
+        data = input("Digite a data do exercício feito (formato DD/MM/AA): ")        
+        datas.append(data)
+        while True:
+            intensidade = int(input("Digite a intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta"))
+            if intensidade == 1:
+                intensidades.append("Leve")
+                break
+            elif intensidade == 2:
+                intensidades.append("Moderada")
+                break
+            elif intensidade == 3:
+                intensidades.append("Alta")
+                break
+            else:
+                print("Opção inválida. Tente novamente")
     elif opcao == 2:
-        pass
+        for i in range(len(titulos)):
+            print(f'{titulos[i]: <30}', end = '')
+        print('\n')
+        for i in range (len(treinos)):
+            print(f'{treinos[i]: <30}', end = '')
+            print(f'{tipos[i]: <30}', end = '')
+            print(f'{datas[i]: <30}', end = '')
+            print(f'{duracoes[i]: <30}', end = '')
+            print(f'{intensidades[i]: <30}', end = '\n')
     elif opcao == 3:
-        pass
+        print(treinos)
+        while True:
+            nome = input("Digite o nome do treino a ser editado: ").capitalize()
+            if nome in treinos:
+                novo_nome = input(f"Digite o novo nome do {nome}: ").capitalize()
+                novo_tipo = input(f"Digite o novo tipo do exercício de {nome}: \nCorrida \nForça \nSimulado HYROX \n").upper()
+                indice = treinos.index(nome)
+                treinos[indice] = novo_nome
+                tipos[indice] = novo_tipo
+                break
+            else:
+                print(f"o treino {nome} não está cadastrado")        
     elif opcao == 4:
-        pass
+        print(*treinos, sep = ', ')
+        while True:
+            nome = input("Digite o nome do treino a ser excluído: ").capitalize()
+            if nome in treinos:
+                indice = treinos.index(nome)
+                treinos.pop(indice)
+                tipos.pop(indice)
+                break
+            else:
+                print(f"o treino {nome} não está cadastrado")
     else:
         print("Opção inválida")
 
@@ -63,8 +129,6 @@ while True:
 
 while True:
     pass
-
-
 
 
 #4. Acompanhamento de Evolução:
