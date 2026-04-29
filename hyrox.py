@@ -29,14 +29,17 @@ tipos = []
 datas = []
 duracoes = []
 intensidades = []
-
+#menu de opções
 while True:
     opcao = int(input("Menu de Opções: \n1. Adicionar treino \n2. Visualizar treinos \n3. Editar treinos \n4. Excluir treino \n5. Sair \n\nDigite o número da opção desejada: "))
+    #sair
     if opcao == 5:
         break
+    #adicionar treino
     elif opcao == 1:
         treino = input("Adicione o nome do treino desejado: ").capitalize()
         treinos.append(treino)
+        #adicionar tipo de treino
         while True:
             tipo = input("Adicione o tipo de treino: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
             if tipo == "C":
@@ -50,22 +53,27 @@ while True:
                 break
             else:
                 print("Opção inválida!")
+        #adicionar duração do exercício
         while True:
             duracao = int(input("Digite a duração do exercício, em minutos: "))
+            #verificação de valores por segurança
             if duracao <= 0:
                 print("Duração inválida. Tente novamente")
             elif duracao >= 600:
-                print("Essa duração parece muito grande. Tente novamente")
+                print("Essa duração parece muito grande. Por questões de segurança, digite novamente")
+            #transformação do exercício em horas e minutos
             else:
                 horas = str(duracao // 60)
                 minutos = str(duracao%60)
                 valor = str(horas + 'h' + ' ' + minutos + 'min')                
                 duracoes.append(valor)
                 break
+        #adicionar data
         data = input("Digite a data do exercício feito (formato DD/MM/AA): ")        
         datas.append(data)
+        #adicionar intensidade
         while True:
-            intensidade = int(input("Digite a intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta"))
+            intensidade = int(input("Digite o número correspondente à intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta"))
             if intensidade == 1:
                 intensidades.append("Leve")
                 break
@@ -77,6 +85,7 @@ while True:
                 break
             else:
                 print("Opção inválida. Tente novamente")
+    #visualizar treinos
     elif opcao == 2:
         for i in range(len(titulos)):
             print(f'{titulos[i]: <30}', end = '')
@@ -87,11 +96,15 @@ while True:
             print(f'{datas[i]: <30}', end = '')
             print(f'{duracoes[i]: <30}', end = '')
             print(f'{intensidades[i]: <30}', end = '\n')
+    #editar treinos
     elif opcao == 3:
-        print(treinos)
+        #mostrar os treinos para conferência do usuário
+        print(*treinos, sep = ', ')
         while True:
             nome = input("Digite o nome do treino a ser editado: ").capitalize()
+            #verificação da existência do treino
             if nome in treinos:
+                #substituição do treino
                 novo_nome = input(f"Digite o novo nome do {nome}: ").capitalize()
                 novo_tipo = input(f"Digite o novo tipo do exercício de {nome}: \nCorrida \nForça \nSimulado HYROX \n").upper()
                 indice = treinos.index(nome)
@@ -99,11 +112,14 @@ while True:
                 tipos[indice] = novo_tipo
                 break
             else:
-                print(f"o treino {nome} não está cadastrado")        
+                print(f"o treino {nome} não está cadastrado")
+    #excluir treino        
     elif opcao == 4:
+        #mostrar os treinos para conferência do usuário
         print(*treinos, sep = ', ')
         while True:
             nome = input("Digite o nome do treino a ser excluído: ").capitalize()
+            #mesma verificação
             if nome in treinos:
                 indice = treinos.index(nome)
                 treinos.pop(indice)
@@ -111,6 +127,7 @@ while True:
                 break
             else:
                 print(f"o treino {nome} não está cadastrado")
+    #qualquer outro número dá erro
     else:
         print("Opção inválida")
 
