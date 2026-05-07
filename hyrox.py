@@ -23,6 +23,7 @@ os.system('cls')
 #O usuário poderá adicionar, visualizar, editar e excluir treinos, com informações
 #como: nome do treino, tipo (corrida, força, simulado HYROX), data, duração e
 #intensidade.
+tre=open('Treinos.txt', 'a', encoding='utf-8')
 titulos = ['Treino', 'Tipo', 'Data', 'Duração', 'Intensidade']
 treinos = []
 tipos = []
@@ -39,17 +40,21 @@ while True:
     elif opcao == 1:
         treino = input("Adicione o nome do treino desejado: ").capitalize()
         treinos.append(treino)
+        tre.write('Treino: ' + treino)
         #adicionar tipo de treino
         while True:
             tipo = input("Adicione o tipo de treino: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
             if tipo == "C":
                 tipos.append("Corrida")
+                tre.write(' | Tipo: ' + 'Corrida')
                 break
             elif tipo == "F":
                 tipos.append("Força")
+                tre.write(' | Tipo: ' + 'Força')
                 break
             elif tipo == "S":
                 tipos.append("Simulado HYROX")
+                tre.write(' | Tipo: ' + 'Simulado HYROX')
                 break
             else:
                 print("Opção inválida!")
@@ -67,21 +72,26 @@ while True:
                 minutos = str(duracao%60)
                 valor = str(horas + 'h' + ' ' + minutos + 'min')                
                 duracoes.append(valor)
+                tre.write(' | Duração: ' + horas + 'h' + minutos + 'min')
                 break
         #adicionar data
         data = input("Digite a data do exercício feito (formato DD/MM/AA): ")        
         datas.append(data)
+        tre.write(' | Data: ' + data)
         #adicionar intensidade
         while True:
-            intensidade = int(input("Digite o número correspondente à intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta"))
+            intensidade = int(input("Digite o número correspondente à intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta\n"))
             if intensidade == 1:
                 intensidades.append("Leve")
+                tre.write(' | Intensidade: ' + 'Leve\n')
                 break
             elif intensidade == 2:
                 intensidades.append("Moderada")
+                tre.write(' | Intensidade: ' + 'Moderada\n')
                 break
             elif intensidade == 3:
                 intensidades.append("Alta")
+                tre.write(' | Intensidade: ' + 'Alta\n')
                 break
             else:
                 print("Opção inválida. Tente novamente")
