@@ -22,7 +22,6 @@ os.system('cls' if os.name == 'nt' else 'clear')
 #O usuário poderá adicionar, visualizar, editar e excluir treinos, com informações
 #como: nome do treino, tipo (corrida, força, simulado HYROX), data, duração e
 #intensidade.
-
 tre=open('Treinos.txt', 'a', encoding='utf-8')
 titulos = ['Treino', 'Tipo', 'Data', 'Duração', 'Intensidade']
 treinos = []
@@ -30,157 +29,124 @@ tipos = []
 datas = []
 duracoes = []
 intensidades = []
+#menu de opções
+while True:
+    opcao = int(input("Menu de Opções: \n1. Adicionar treino \n2. Visualizar treinos \n3. Editar treinos \n4. Excluir treino \n5. Sair \n\nDigite o número da opção desejada: "))
+    #sair
+    if opcao == 5:
+        break
+    #adicionar treino
+    elif opcao == 1:
+        treino = input("Adicione o nome do treino desejado: ").capitalize()
+        treinos.append(treino)
+        tre.write('Treino: ' + treino)
+        #adicionar tipo de treino
+        while True:
+            tipo = input("Adicione o tipo de treino: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
+            if tipo == "C":
+                tipos.append("Corrida")
+                tre.write(' | Tipo: ' + 'Corrida')
+                break
+            elif tipo == "F":
+                tipos.append("Força")
+                tre.write(' | Tipo: ' + 'Força')
+                break
+            elif tipo == "S":
+                tipos.append("Simulado HYROX")
+                tre.write(' | Tipo: ' + 'Simulado HYROX')
+                break
+            else:
+                print("Opção inválida!")
+        #adicionar duração do exercício
+        while True:
+            duracao = int(input("Digite a duração do exercício, em minutos: "))
+            #verificação de valores por segurança
+            if duracao <= 0:
+                print("Duração inválida. Tente novamente")
+            elif duracao >= 600:
+                print("Essa duração parece muito grande. Por questões de segurança, digite novamente")
+            #transformação do exercício em horas e minutos
+            else:
+                horas = str(duracao // 60)
+                minutos = str(duracao%60)
+                valor = str(horas + 'h' + ' ' + minutos + 'min')                
+                duracoes.append(valor)
+                tre.write(' | Duração: ' + horas + 'h' + minutos + 'min')
+                break
+        #adicionar data
+        data = input("Digite a data do exercício feito (formato DD/MM/AA): ")        
+        datas.append(data)
+        tre.write(' | Data: ' + data)
+        #adicionar intensidade
+        while True:
+            intensidade = int(input("Digite o número correspondente à intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta\n"))
+            if intensidade == 1:
+                intensidades.append("Leve")
+                tre.write(' | Intensidade: ' + 'Leve\n')
+                break
+            elif intensidade == 2:
+                intensidades.append("Moderada")
+                tre.write(' | Intensidade: ' + 'Moderada\n')
+                break
+            elif intensidade == 3:
+                intensidades.append("Alta")
+                tre.write(' | Intensidade: ' + 'Alta\n')
+                break
+            else:
+                print("Opção inválida. Tente novamente")
+    #visualizar treinos
+    elif opcao == 2:
+        for i in range(len(titulos)):
+            print(f'{titulos[i]: <30}', end = '')
+        print('\n')
+        for i in range (len(treinos)):
+            print(f'{treinos[i]: <30}', end = '')
+            print(f'{tipos[i]: <30}', end = '')
+            print(f'{datas[i]: <30}', end = '')
+            print(f'{duracoes[i]: <30}', end = '')
+            print(f'{intensidades[i]: <30}', end = '\n')
+    #editar treinos
+    elif opcao == 3:
+        #mostrar os treinos para conferência do usuário
+        print(*treinos, sep = ', ')
+        while True:
+            nome = input("Digite o nome do treino a ser editado: ").capitalize()
+            #verificação da existência do treino
+            if nome in treinos:
+                #substituição do treino
+                novo_nome = input(f"Digite o novo nome do {nome}: ").capitalize()
+                novo_tipo = input(f"Digite o novo tipo do exercício de {nome}: \nCorrida \nForça \nSimulado HYROX \n").upper()
+                indice = treinos.index(nome)
+                treinos[indice] = novo_nome
+                tipos[indice] = novo_tipo
+                break
+            else:
+                print(f"o treino {nome} não está cadastrado")
+    #excluir treino        
+    elif opcao == 4:
+        #mostrar os treinos para conferência do usuário
+        print(*treinos, sep = ', ')
+        while True:
+            nome = input("Digite o nome do treino a ser excluído: ").capitalize()
+            #mesma verificação
+            if nome in treinos:
+                indice = treinos.index(nome)
+                treinos.pop(indice)
+                tipos.pop(indice)
+                break
+            else:
+                print(f"o treino {nome} não está cadastrado")
+    #qualquer outro número dá erro
+    else:
+        print("Opção inválida")
 
-def menu_principal():
-    #menu de opções
-    while True:
-        try:
-            opcao = int(input("\nMenu de Opções: \n1. Adicionar treino \n2. Visualizar treinos \n3. Editar treinos \n4. Excluir treino \n5. Sair \n\nDigite o número da opção desejada: "))
-        except ValueError:
-            print("Opção inválida! Por favor, digite um número.")
-            continue
 
-        #sair
-        if opcao == 5:
-            tre.close() # Fechando o arquivo por segurança ao sair
-            break
-            
-        #adicionar treino
-        elif opcao == 1:
-            treino = input("Adicione o nome do treino desejado: ").capitalize()
-            treinos.append(treino)
-            tre.write('Treino: ' + treino)
-            
-            #adicionar tipo de treino
-            while True:
-                tipo = input("Adicione o tipo de treino: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
-                if tipo == "C":
-                    tipos.append("Corrida")
-                    tre.write(' | Tipo: ' + 'Corrida')
-                    break
-                elif tipo == "F":
-                    tipos.append("Força")
-                    tre.write(' | Tipo: ' + 'Força')
-                    break
-                elif tipo == "S":
-                    tipos.append("Simulado HYROX")
-                    tre.write(' | Tipo: ' + 'Simulado HYROX')
-                    break
-                else:
-                    print("Opção inválida!")
-                    
-            #adicionar duração do exercício
-            while True:
-                try:
-                    duracao = int(input("Digite a duração do exercício, em minutos: "))
-                except ValueError:
-                    print("Duração inválida. Digite apenas números.")
-                    continue
-                    
-                #verificação de valores por segurança
-                if duracao <= 0:
-                    print("Duração inválida. Tente novamente")
-                elif duracao >= 600:
-                    print("Essa duração parece muito grande. Por questões de segurança, digite novamente")
-                #transformação do exercício em horas e minutos
-                else:
-                    horas = str(duracao // 60)
-                    minutos = str(duracao%60)
-                    valor = str(horas + 'h' + ' ' + minutos + 'min')                
-                    duracoes.append(valor)
-                    tre.write(' | Duração: ' + horas + 'h' + minutos + 'min')
-                    break
-                    
-            #adicionar data
-            data = input("Digite a data do exercício feito (formato DD/MM/AA): ")        
-            datas.append(data)
-            tre.write(' | Data: ' + data)
-            
-            #adicionar intensidade
-            while True:
-                try:
-                    intensidade = int(input("Digite o número correspondente à intensidade do exercício: \n1. Leve\n2. Moderada\n3. Alta\n"))
-                except ValueError:
-                    print("Intensidade inválida. Digite um número de 1 a 3.")
-                    continue
-                    
-                if intensidade == 1:
-                    intensidades.append("Leve")
-                    tre.write(' | Intensidade: ' + 'Leve\n')
-                    break
-                elif intensidade == 2:
-                    intensidades.append("Moderada")
-                    tre.write(' | Intensidade: ' + 'Moderada\n')
-                    break
-                elif intensidade == 3:
-                    intensidades.append("Alta")
-                    tre.write(' | Intensidade: ' + 'Alta\n')
-                    break
-                else:
-                    print("Opção inválida. Tente novamente")
-                    
-        #visualizar treinos
-        elif opcao == 2:
-            for i in range(len(titulos)):
-                print(f'{titulos[i]: <30}', end = '')
-            print('\n')
-            for i in range (len(treinos)):
-                print(f'{treinos[i]: <30}', end = '')
-                print(f'{tipos[i]: <30}', end = '')
-                print(f'{datas[i]: <30}', end = '')
-                print(f'{duracoes[i]: <30}', end = '')
-                print(f'{intensidades[i]: <30}', end = '\n')
-                
-        #editar treinos
-        elif opcao == 3:
-            #mostrar os treinos para conferência do usuário
-            print("Treinos cadastrados:", *treinos, sep = ', ')
-            while True:
-                nome = input("Digite o nome do treino a ser editado: ").capitalize()
-                #verificação da existência do treino
-                if nome in treinos:
-                    #substituição do treino
-                    novo_nome = input(f"Digite o novo nome do {nome}: ").capitalize()
-                    novo_tipo = input(f"Digite o novo tipo do exercício de {nome}: \nC - Corrida \nF - Força \nS - Simulado HYROX \n").capitalize()
-                    indice = treinos.index(nome)
-                    treinos[indice] = novo_nome
-                    
-                    if novo_tipo == "C": tipos[indice] = "Corrida"
-                    elif novo_tipo == "F": tipos[indice] = "Força"
-                    elif novo_tipo == "S": tipos[indice] = "Simulado HYROX"
-                    
-                    print("Treino editado com sucesso!")
-                    break
-                else:
-                    print(f"O treino {nome} não está cadastrado")
-                    break # Impede loop infinito se errar o nome
-                    
-        #excluir treino        
-        elif opcao == 4:
-            #mostrar os treinos para conferência do usuário
-            print("Treinos cadastrados:", *treinos, sep = ', ')
-            while True:
-                nome = input("Digite o nome do treino a ser excluído: ").capitalize()
-                #mesma verificação
-                if nome in treinos:
-                    indice = treinos.index(nome)
-                    treinos.pop(indice)
-                    tipos.pop(indice)
-                    datas.pop(indice)       # Adicionado para evitar bug
-                    duracoes.pop(indice)    # Adicionado para evitar bug
-                    intensidades.pop(indice)# Adicionado para evitar bug
-                    print("Treino excluído com sucesso!")
-                    break
-                else:
-                    print(f"O treino {nome} não está cadastrado")
-                    break # Impede loop infinito se errar o nome
-                    
-        #qualquer outro número dá erro
-        else:
-            print("Opção inválida")
+#2. Exercícios e Controle de Desempenho:
+#O usuário poderá cadastrar exercícios específicos do HYROX (como sled push,
+#sled pull, burpee broad jumps, wall balls, farmer’s carry, entre outros),
+#registrando métricas como tempo, distância, carga e repetições. Esses dados
+#permitirão acompanhar a evolução do desempenho ao longo do tempo.
 
-# Iniciando o sistema
-menu_principal()
 
 #3. Planejamento de Competições:
 #O usuário poderá cadastrar competições futuras, informando data, local e
