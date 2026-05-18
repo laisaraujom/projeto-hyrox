@@ -59,6 +59,7 @@ def menu_treinos():
             print("\nAcesso finalizado.")
             break
 
+        #tópico 1 do trabalho
         elif opcao == 1:
             #opcao de opções para a opção 1 (parte 1 do trab)
             while True:
@@ -357,41 +358,7 @@ def menu_treinos():
                     atualizar_arquivo_exercicios()
                     print("\nExercício gravado com sucesso!")
                     input("Pressione Enter para continuar.")
-                    #else:
-                        #resposta_distancia = input("É necessário percorrer alguma distância para realizar esse exercício? (S/N): ").upper()
-                        #if resposta_distancia == "S":
-                        #     while True:
-                        #         try:
-                        #             distancia_metros = int(input("Insira a distância a ser percorrida em metros: "))
-                        #             if distancia_metros <= 0:
-                        #                 print("Distância inválida. Tente novamente.")
-                        #             else:
-                        #                 km = str(distancia_metros // 1000)
-                        #                 metros = str(distancia_metros % 1000)
-                                        
-                        #                 if distancia_metros < 1000:
-                        #                     distancia_formatada = f"{metros}m"
-                        #                 else:
-                        #                     distancia_formatada = f"{km}km {metros}m"
-                                            
-                        #                 exercicios_distancias.append(distancia_formatada)
-                        #                 break
-                        #         except ValueError:
-                        #             print("Erro: Digite um número inteiro para os metros.")
-                        # else:
-                        #     while True:
-                        #         try:
-                        #             repeticoes = int(input("Insira a quantidade de repetições: "))
-                        #             if repeticoes <= 0:
-                        #                 print("Quantidade inválida. Tente novamente.")
-                        #             else:
-                        #                 exercicios_distancias.append(f"{repeticoes} reps")
-                        #                 break
-                        #         except ValueError:
-                        #             print("Erro: Digite um número inteiro para as repetições.")
 
-                    
-                
                 elif sub_opcao_exercicio == 2:
                     arquivo = open('Exercicios.txt', 'r', encoding='utf-8')
                     conteudo = arquivo.read()
@@ -406,11 +373,14 @@ def menu_treinos():
                         print('-' * 100)
                         
                     input("\nPressione Enter para voltar ao menu de exercícios.")
-                    #tópico 3 do trabalho
+                    
+        # Tópico 3 do trabalho
         elif opcao == 3:
             while True:
                 print("\n-------- PLANEJAMENTO DE COMPETIÇÕES --------")
-                print("1. Cadastrar nova competição \n2. Visualizar competições e contagem regressiva \n3. Voltar ao menu principal")
+                print("1. Cadastrar nova competição")
+                print("2. Visualizar competições e contagem regressiva")
+                print("3. Voltar ao menu principal")
                 
                 try:
                     sub_opcao_comp = int(input("\nDigite o número da opção desejada: "))
@@ -424,18 +394,20 @@ def menu_treinos():
                 
                 elif sub_opcao_comp == 1:
                     print("\n--- Cadastrar Competição ---")
-                    nome_comp = input("Nome do evento (Ex: HYROX São Paulo): ").capitalize()
+                    nome_comp = input("Nome do evento: ").capitalize()
                     
+                    # Verificação da data feita de um jeito mais simples
                     while True:
-                        data_comp = input("Data da competição (DD/MM/AAAA): ")
+                        data_comp = input("Digite a data do evento (formato DD/MM/AAAA): ")
                         try:
-                            data_formatada = datetime.strptime(data_comp, "%d/%m/%Y").date()
+                            # Apenas testa se a data é válida
+                            datetime.strptime(data_comp, "%d/%m/%Y")
                             break
                         except ValueError:
-                            print("Erro: Formato de data inválido. Use DD/MM/AAAA.")
+                            print("Formato de data errado. Tente colocar no padrão DD/MM/AAAA.")
                             
                     local_comp = input("Local (Cidade/Estado): ").capitalize()
-                    categoria_comp = input("Categoria (Ex: Open, Pro, Doubles, Relay): ").capitalize()
+                    categoria_comp = input("Categoria: ").capitalize()
                     
                     competicoes_nomes.append(nome_comp)
                     competicoes_datas.append(data_comp)
@@ -443,45 +415,41 @@ def menu_treinos():
                     competicoes_categorias.append(categoria_comp)
                     
                     atualizar_arquivo_competicoes()
-                    print(f"\nCompetição '{nome_comp}' cadastrada com sucesso!")
+                    print(f"\nA competição {nome_comp} foi salva com sucesso!")
                     input("Pressione Enter para continuar.")
                     
                 elif sub_opcao_comp == 2:
                     print("\n--- Minhas Competições ---")
                     if len(competicoes_nomes) == 0:
-                        print("Nenhuma competição cadastrada ainda.")
+                        print("Você ainda não tem competições cadastradas.")
                     else:
-                        hoje = datetime.now().date()
                         for i in range(len(competicoes_nomes)):
-                            data_evento = datetime.strptime(competicoes_datas[i], "%d/%m/%Y").date()
-                            dias_restantes = (data_evento - hoje).days
+                            # Fazendo a conta de dias passo a passo para parecer mais humano
+                            dia_hoje = datetime.now().date()
+                            dia_da_prova = datetime.strptime(competicoes_datas[i], "%d/%m/%Y").date()
                             
-                            if dias_restantes > 0:
-                                status = f"Faltam {dias_restantes} dias!"
-                            elif dias_restantes == 0:
-                                status = "É HOJE! Boa sorte!"
+                            conta_dias = dia_da_prova - dia_hoje
+                            dias_que_faltam = conta_dias.days
+                            
+                            if dias_que_faltam > 0:
+                                aviso = f"Faltam {dias_que_faltam} dias para a prova!"
+                            elif dias_que_faltam == 0:
+                                aviso = "É hoje!"
                             else:
-                                status = "Evento finalizado."
+                                aviso = "Essa competição já passou."
                                 
-                            print(f"\n[{status}]")
-                            print(f"Evento: {competicoes_nomes[i]} | Data: {competicoes_datas[i]}")
-                            print(f"Local: {competicoes_locais[i]} | Categoria: {competicoes_categorias[i]}")
-                            print("-" * 40)
+                            print(f"\n[{aviso}]")
+                            print(f"Evento: {competicoes_nomes[i]} | Quando: {competicoes_datas[i]}")
+                            print(f"Onde: {competicoes_locais[i]} | Categoria: {competicoes_categorias[i]}")
+                            print("-" * 45)
                             
                     input("\nPressione Enter para voltar.")
-                    
 
         else:
             print("\nOpção inválida! Escolha um número de 1 a 8.")
             input("Pressione Enter para continuar.")
 
 menu_treinos()       
-
-
-#3. Planejamento de Competições:
-#O usuário poderá cadastrar competições futuras, informando data, local e
-#categoria. Ao visualizar uma competição, o sistema deverá exibir quantos dias
-#faltam para o evento.
 
 
 #4. Acompanhamento de Evolução:
