@@ -60,6 +60,4 @@ O sistema funciona com arquivos de texto locais que servem para guardar as infor
 
 1. Instale o Python no seu computador.
 2. Certifique-se de que o arquivo `agente.py` (com a função do chat de IA) está na mesma pasta que o script principal.
-3. Abra o terminal na pasta do projeto e digite:
-```bash
-python hyrox.py
+3. Abra o terminal e comece a cadastrar seus exercícios!
