@@ -1,3 +1,9 @@
+## Este projeto foi desenvolvido por: 
+Ana Júlia Melo, Ana Luiza Câmara, Arthur Marenga, Beatriz Vieira, Laís Moura e Victor Telles.
+
+## Créditos
+Este projeto utiliza um módulo de agente fornecido pelo mentor Victor Costa
+
 # HYROX Planner
 
 Este projeto foi desenvolvido em Python para ajudar atletas a organizarem e acompanharem toda a rotina de preparação para o HYROX. O programa permite salvar os treinos diários, marcar os tempos das estações específicas da modalidade, gerenciar o calendário de provas, controlar o peso/composição corporal e falar com um bot de IA.
